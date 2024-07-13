@@ -1,0 +1,203 @@
+from tkinter import *
+from PIL import Image,ImageTk
+import random
+import pygame
+from tkinter import ttk
+
+def game():
+    l=["Rock","Paper","Scissor"]
+    sc=random.choices(l)
+    uc=user_input.get()
+    global ss
+    global us
+    #print(sc[0],uc)
+    system_input.config(text=sc[0])
+    if sc[0]=="Rock" and uc=="Scissor":
+        final_result.config(text="Rock beats Scissor and system won this time")
+        ss=ss+1
+        sys_score.config(text=ss)
+    elif sc[0]=="Rock" and uc=="Paper":
+        final_result.config(text="Paper beats rock and user won this time")
+        us=us+1
+        us_score.config(text=us)
+    elif sc[0]=="Rock" and uc=="Rock":
+        final_result.config(text="System and user choices are same and it's tie")
+        ss=ss+1
+        us=us+1
+        sys_score.config(text=ss)
+        us_score.config(text=us)
+    elif sc[0]=="Scissor" and uc=="Rock":
+        final_result.config(text="Rock beats Scissor and user won this time")
+        us=us+1
+        us_score.config(text=us)
+    elif sc[0]=="Scissor" and uc=="Paper":
+        final_result.config(text="Scissor beats the paper and system won this time")
+        ss=ss+1
+        sys_score.config(text=ss)
+    elif sc[0]=="Scissor" and uc=="Scissor":
+        final_result.config(text="System and user choices are same and it's tie")
+        ss=ss+1
+        us=us+1
+        sys_score.config(text=ss)
+        us_score.config(text=us)
+    elif sc[0]=="Paper" and uc=="Rock":
+        final_result.config(text="Paper beats the rock and system won this time")
+        ss=ss+1
+        sys_score.config(text=ss)
+    elif sc[0]=="Paper" and uc=="Scissor":
+        final_result.config(text="Scissor beats paper and user won this time")
+        us=us+1
+        us_score.config(text=us)
+    elif sc[0]=="Paper" and uc=="Paper":
+        final_result.config(text="System and user choices are same and it's tie")
+        ss=ss+1
+        us=us+1
+        sys_score.config(text=ss)
+        us_score.config(text=us)
+    user_input.config(state="disabled")
+    start.config(state="disabled")
+    choice.config(text="Are you want to continue")
+    yes.place(x=570,y=540)
+    no.place(x=640,y=540)
+    yes.config(text="Yes",font=("Berlin Sans FB Demi",13),command=Yes)
+    no.config(text="no",font=("Berlin Sans FB Demi",13),command=No)
+    
+
+def Yes():
+    user_input.config(state="normal")
+    start.config(state="normal")
+    choice.config(text="")
+    yes.place_forget()
+    no.place_forget()
+
+def No():
+    user_input.config(state="disabled")
+    start.config(state="disabled")
+    choice.config(text="")
+    yes.place_forget()
+    no.place_forget()
+    if us>ss:
+        winner.config(text="Congratulations :)\n You won the game")
+    elif ss>us:
+        winner.config(text="Sorry :(\n You loose the game")
+    else:
+        winner.config(text="it's tie")
+    
+    
+    
+
+window=Tk()
+window.title("RockPaperScissors")
+window.config(background="#9FB6CD")
+
+ss=0
+us=0
+
+title=Label(window,text="Rock Paper Scissor",font=("Times New Roman",35,"bold"),bg="#9FB6CD")
+title.pack()
+
+image_path = "C:\\Users\\bevar\\OneDrive\\Pictures\\Saved Pictures\\rock-paper-scissor.jpg"
+image= Image.open(image_path)
+
+new_width = 400
+new_height = 500
+resized_image = image.resize((new_width, new_height),Image.LANCZOS)
+
+photo =ImageTk.PhotoImage(resized_image)
+
+si=Label(window,image=photo,bd=0)
+si.place(x=12,y=150)
+
+pygame.mixer.init()
+
+# Function to play music
+def play_music():
+    pygame.mixer.music.load("C:\\Users\\bevar\\Downloads\\game-music-teste-204327.mp3")
+    pygame.mixer.music.play(loops=-1)
+
+# Function to stop music
+def stop_music():
+    pygame.mixer.music.stop()
+
+play_music()
+
+# Ensure the music stops when the program ends
+def on_closing():
+    stop_music()
+    window.destroy()
+
+# Set the protocol for the window close button
+window.protocol("WM_DELETE_WINDOW", on_closing)
+
+
+# Create a volume slider
+volume_slider = Scale(window, from_=0, to=100, orient="horizontal", label="Volume", command=lambda val: pygame.mixer.music.set_volume(int(val) / 100),bg="#9FB6CD")
+volume_slider.set(50)  # Set default volume to 50%
+#volume_slider.place(x=1400,y=700)
+volume_slider.place_forget()
+
+
+
+
+
+
+
+
+options=Label(window,text="Rock,Paper,Scissor",font=("Algerian",13),bg="#9FB6CD")
+options.place(x=560,y=190)
+
+user_text=Label(window,text="Select your choice from above options",font=("Algerian",13),bg="#9FB6CD")
+user_text.place(x=500,y=240)
+
+
+user_input=Entry(window,font=("Berlin Sans FB Demi",13))
+user_input.place(x=520,y=290)
+
+score=Label(window,text="Score Board",font=("Berlin Sans FB Demi",16),bg="#9FB6CD")
+score.place(x=1200,y=170)
+
+user_score=Label(window,text="User",font=("Times New Roman",14),bg="#9FB6CD")
+user_score.place(x=1160,y=240)
+
+system_score=Label(window,text="System",font=("Times New Roman",14),bg="#9FB6CD")
+system_score.place(x=1300,y=240)
+
+ss=0
+us=0
+start=Button(window,text="Start",font=("Berlin Sans FB Demi",13),command=game,bg="#9FB6CD",activebackground="#9FB6CD")
+start.place(x=580,y=450)
+
+system_text=Label(window,text="System's choice",font=("Algerian",13),bg="#9FB6CD")
+system_text.place(x=540,y=340)
+
+
+system_input=Label(window,font=("Berlin Sans FB Demi",13),bg="#9FB6CD")
+system_input.place(x=580,y=390)
+
+final_result=Label(window,font=("Algerian",13),bg="#9FB6CD")
+final_result.place(x=1070,y=370)
+
+sys_score=Label(window,bg="#9FB6CD")
+sys_score.place(x=1300,y=280)
+
+us_score=Label(window,bg="#9FB6CD")
+us_score.place(x=1160,y=280)
+
+choice=Label(window,font=("Berlin Sans FB Demi",13),bg="#9FB6CD")
+choice.place(x=540,y=500)
+
+yes=Button(window,bg="#9FB6CD",activebackground="#9FB6CD")
+
+yes.place_forget()
+
+
+no=Button(window,bg="#9FB6CD",activebackground="#9FB6CD")
+
+no.place_forget()
+
+
+
+winner=Label(window,font=("Times New Roman",25,"bold"),bg="#9FB6CD")
+winner.place(x=670,y=630)
+
+window.mainloop()
