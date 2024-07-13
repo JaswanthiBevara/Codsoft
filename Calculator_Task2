@@ -1,0 +1,90 @@
+from tkinter import *
+from PIL import Image,ImageTk
+
+def submit():
+    s1=v1.get()
+    s2=v2.get()
+    if not(s1.isnumeric()) or not(s2.isnumeric()):
+        l1.config(text="Please enter valid Operands",bg="#F0F8FF")
+        return
+    a=int(v1.get())
+    b=int(v2.get())
+    ope=op.get()
+    if ope=="+":
+        r=a+b
+    elif ope=="-":
+        r=a-b
+    elif ope=="/":
+        r=a/b
+    elif ope=="%":
+        r=a%b
+    elif ope=="*":
+        r=a*b
+    else:
+        l1.config(text="Please enter valid Operator",bg="#F0F8FF")
+        return
+    l1.config(text="",bg="#F0F8FF")
+    result.set(str(r))
+    ans=Label(f3,textvariable=result,font=("Algerian",20),relief=RAISED,bg="#F0F8FF")
+    ans.grid(row=0,column=2,sticky='w')
+    
+window = Tk()
+window.title("Calculator")
+
+window.configure(background="#F0F8FF")
+
+f1=Frame(window,bg="#F0F8FF")
+f1.place(x=650,y=40)
+
+f2=Frame(window,bg="#F0F8FF")
+f2.place(x=560,y=120)
+
+f3=Frame(window,bg="#F0F8FF")
+f3.place(x=580,y=380)
+
+f4=Frame(window,bg="#F0F8FF")
+f4.place(x=720,y=340)
+l1=Label(f4,font=("Algerian",13))
+l1.pack()
+
+result=StringVar()
+result.set("0")
+
+
+l=Label(f1,text="Calculator",font=("Algerian",25),bg="#F0F8FF")
+l.pack()
+
+n1=Label(f2,text="Enter first number",font=("Algerian",13),width=25,bg="#F0F8FF")
+n1.grid(row=0,column=0,sticky='w')
+
+v1=Entry(f2,width=22,font=(13))
+v1.grid(row=0,column=1)
+
+empty=Label(f2,bg="#F0F8FF")
+empty.grid(row=1,column=1)
+
+n2=Label(f2,text="Enter second number",font=("Algerian",13),width=25,bg="#F0F8FF")
+n2.grid(row=2,column=0,sticky='w')
+
+v2=Entry(f2,width=22,font=(13))
+v2.grid(row=2,column=1)
+
+empty1=Label(f2,bg="#F0F8FF")
+empty1.grid(row=3,column=1)
+
+op1=Label(f2,text="Enter oprator to perform the operation",font=("Algerian",13),width=40,bg="#F0F8FF")
+op1.grid(row=4,column=0,sticky='w')
+
+op=Entry(f2,width=22,font=(13))
+op.grid(row=4,column=1)
+
+empty2=Label(f2,bg="#F0F8FF")
+empty2.grid(row=5,column=1)
+
+submit_button=Button(f2,text="Submit",font=("Algerian",13),command=submit,bg="#F0F8FF",activebackground="#F0F8FF")
+submit_button.grid(row=6,column=0,columnspan=2)
+
+fa=Label(f3,text="Result",font=("Algerian",13),width=40,bg="#F0F8FF")
+fa.grid(row=0,column=1)
+
+window.mainloop()
